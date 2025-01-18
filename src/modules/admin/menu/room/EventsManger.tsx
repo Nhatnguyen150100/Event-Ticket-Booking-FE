@@ -1,31 +1,31 @@
-import { Button,  message, Modal, Spin, Table, TableProps } from "antd";
+import { Button, message, Modal, Spin, Table, TableProps } from "antd";
 import * as React from "react";
 import BaseSearch from "../../../../components/base/BaseSearch";
 import { IQueryUser } from "../../../../types/user.types";
 import { DeleteOutlined } from "@ant-design/icons";
-import { IRoom } from "../../../../types/room.types";
 import { useNavigate } from "react-router-dom";
 import { DEFINE_ROUTERS_ADMIN } from "../../../../constants/route-mapper";
-import roomService from "../../../../services/roomService";
+import { IEvent } from "../../../../types/event.types";
+import eventService from "../../../../services/eventService";
+import { formatDate } from "../../../../utils/format-date";
 
-export default function RoomManager() {
+export default function EventsManger() {
   const navigate = useNavigate();
   const [query, setQuery] = React.useState<Partial<IQueryUser>>({
     page: 1,
     limit: 5,
     nameLike: "",
   });
-  const [roomList, setRoomList] = React.useState<IRoom[]>([]);
+  const [eventsList, setEventsList] = React.useState<IEvent[]>([]);
   const [loading, setLoading] = React.useState(false);
 
-  const handleGetRoomList = async (queryParam = query) => {
+  const handleGetEventsList = async () => {
     try {
       setLoading(true);
-      delete queryParam.total;
-      const rs = await roomService.getAllRooms(queryParam);
-      setRoomList(rs.data.content);
+      const rs = await eventService.getAllEvents(query);
+      setEventsList(rs.data.content);
       setQuery({
-        ...queryParam,
+        ...query,
         total: rs.data.totalCount,
       });
     } finally {
@@ -33,13 +33,13 @@ export default function RoomManager() {
     }
   };
 
-  const handleDeleteRoom = async (_room: IRoom) => {
+  const handleDeleteEvent = async (_item: IEvent) => {
     Modal.confirm({
-      title: "Bạn có muốn xóa phòng này này",
-      content: `Phòng: ${_room.name}`,
-      okText: "Đồng ý",
+      title: "Do you to delete this event",
+      content: `Event: ${_item.name}`,
+      okText: "Agree",
       okType: "danger",
-      cancelText: "Hủy",
+      cancelText: "Cancel",
       style: {
         top: "50%",
         transform: "translateY(-50%)",
@@ -47,9 +47,9 @@ export default function RoomManager() {
       onOk: async () => {
         try {
           setLoading(true);
-          const rs = await roomService.deleteRoom(_room.id);
+          const rs = await eventService.deleteEvent(_item._id);
           message.success(rs.message);
-          handleGetRoomList();
+          handleGetEventsList();
         } catch (error: any) {
           message.error(error.message);
         } finally {
@@ -60,10 +60,10 @@ export default function RoomManager() {
   };
 
   React.useEffect(() => {
-    handleGetRoomList();
-  }, []);
+    handleGetEventsList();
+  }, [query.page]);
 
-  const columns: TableProps<IRoom>["columns"] = [
+  const columns: TableProps<IEvent>["columns"] = [
     {
       title: "Số thứ tự",
       key: "index",
@@ -71,41 +71,58 @@ export default function RoomManager() {
         (query.page! - 1) * query.limit! + index + 1,
     },
     {
-      title: "Tên phòng",
+      title: "Name event",
       dataIndex: "name",
       align: "justify",
       key: "name",
       render: (text) => <span className="text-lg font-medium">{text}</span>,
     },
     {
-      title: "Ảnh phòng",
-      dataIndex: "img_1",
+      title: "Thumbnail",
+      dataIndex: "imageThumbnail",
       key: "icon",
-      render: (img) => <img className="h-[80px]" src={img} />,
+      render: (img) => (
+        <img crossOrigin="anonymous" className="h-[80px]" src={img} />
+      ),
     },
     {
-      title: "Loại giường",
-      dataIndex: "bedType",
-      key: "name",
+      title: "Time event",
+      dataIndex: "time",
+      key: "time",
+      render: (text) => (
+        <span className="text-lg font-medium">{formatDate(text)}</span>
+      ),
+    },
+    {
+      title: "Location event",
+      dataIndex: "location",
+      key: "location",
       render: (text) => <span className="text-lg font-medium">{text}</span>,
     },
     {
-      title: "Diện tích phòng",
-      dataIndex: "acreage",
-      align: "center",
-      key: "name",
-      render: (text) => <span className="text-lg font-medium">{text} m2</span>,
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity",
+      render: (text) => <span className="text-lg font-medium ">{text}</span>,
     },
     {
-      title: "Xóa phòng",
-      key: "deleteRoom",
+      title: "Tickets Available",
+      dataIndex: "ticketsAvailable",
+      key: "ticketsAvailable",
+      render: (text) => (
+        <span className="text-lg font-medium text-green-600">{text}</span>
+      ),
+    },
+    {
+      title: "Delete event",
+      key: "deleteEvent",
       align: "center",
-      dataIndex: "deleteRoom",
-      render: (_, _item: IRoom) => (
+      dataIndex: "deleteEvent",
+      render: (_, _item: IEvent) => (
         <Button
           onClick={(e) => {
             e.stopPropagation();
-            handleDeleteRoom(_item);
+            handleDeleteEvent(_item);
           }}
           className="ms-3"
           variant="solid"
@@ -117,61 +134,50 @@ export default function RoomManager() {
     },
   ];
 
-  const handleClickRow = (record: IRoom) => {
-    navigate(DEFINE_ROUTERS_ADMIN.editRoom.replace(":id", record.id));
+  const handleClickRow = (record: IEvent) => {
+    navigate(DEFINE_ROUTERS_ADMIN.editEvent.replace(":id", record._id));
   };
 
   return (
     <>
       <div className="flex flex-col justify-start items-start space-y-5 w-full">
-        <h1 className="font-bold text-2xl">
-          Danh sách các phòng trong khách sạn
-        </h1>
+        <h1 className="font-bold text-2xl">List event manager</h1>
         <div className="flex flex-row justify-between items-center w-full">
           <BaseSearch
             value={query.nameLike!}
             onHandleChange={(value) => {
               setQuery({ ...query, nameLike: value });
-              if (!value)
-                handleGetRoomList({
-                  page: query.page,
-                  limit: query.limit,
-                });
             }}
-            onSearch={() => handleGetRoomList()}
+            onSearch={() => handleGetEventsList()}
           />
           <Button
             type="primary"
             variant="filled"
             onClick={() => {
-              navigate(DEFINE_ROUTERS_ADMIN.newRoom);
+              navigate(DEFINE_ROUTERS_ADMIN.newEvent);
             }}
           >
-            Thêm 1 phòng mới
+            Add new event
           </Button>
         </div>
         {loading ? (
           <Spin />
         ) : (
           <div className="w-full">
-            <Table<IRoom>
+            <Table<IEvent>
               rowKey="id"
               className="hover:cursor-pointer"
               columns={columns}
               onRow={(record) => ({
                 onClick: () => handleClickRow(record),
               })}
-              dataSource={roomList}
+              dataSource={eventsList}
               pagination={{
                 current: query.page,
                 pageSize: query.limit,
                 total: query.total,
                 onChange: (page, limit) => {
-                  handleGetRoomList({
-                    ...query,
-                    page,
-                    limit,
-                  });
+                  setQuery({ ...query, page, limit });
                 },
               }}
             />

@@ -1,7 +1,8 @@
-
 const DEFINE_ROUTERS_ADMIN = {
-  home: "/admin",
+  home: "/",
   eventsManager: "/admin/events-manager",
+  editEvent: "/admin/events-manager/:id",
+  newEvent: "/admin/events-manager/new-event",
   loginAdmin: "/login-admin",
 };
 

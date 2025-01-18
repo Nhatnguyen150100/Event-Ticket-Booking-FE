@@ -1,24 +1,23 @@
 import * as React from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { DEFINE_ROUTERS_ADMIN } from "../../../../constants/route-mapper";
-import roomService from "../../../../services/roomService";
 import { Button, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import CreateOrEditEvent from "./common/CreateOrEditEvent";
-import GeneralLoading from "../../../../components/base/GeneralLoading";
-import { IRoom } from "../../../../types/room.types";
+import { IEvent } from "../../../../types/event.types";
+import eventService from "../../../../services/eventService";
 import Visibility from "../../../../components/base/visibility";
-import imagesService from "../../../../services/imagesService";
+import GeneralLoading from "../../../../components/base/GeneralLoading";
+import CreateOrEditEvent from "./common/CreateOrEditEvent";
 
 export default function EditEvent() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = React.useState(false);
-  const [roomDetail, setEventDetail] = React.useState<IRoom>();
+  const [eventDetail, setEventDetail] = React.useState<IEvent>();
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (id) {
-      handleGetRoomDetail();
+      handleGetEventDetail();
     }
   }, [id]);
 
@@ -26,10 +25,10 @@ export default function EditEvent() {
     return <Navigate to={DEFINE_ROUTERS_ADMIN.eventsManager} />;
   }
 
-  const handleGetRoomDetail = async () => {
+  const handleGetEventDetail = async () => {
     try {
       setLoading(true);
-      const rs = await roomService.getRoom(id!);
+      const rs = await eventService.getEvent(id);
       setEventDetail(rs.data);
     } catch (error: any) {
       message.error(error.message);
@@ -38,11 +37,10 @@ export default function EditEvent() {
     }
   };
 
-  const handleSubmit = async (data: FormData, listImageDelete?: string[]) => {
+  const handleSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      const rs = await roomService.updateRoom(id!, data);
-      if(listImageDelete?.length) await imagesService.deleteImages(listImageDelete)
+      const rs = await eventService.updateEvent(id!, data);
       message.success(rs.message);
       navigate(-1);
     } catch (error: any) {
@@ -63,8 +61,8 @@ export default function EditEvent() {
       >
         Trở lại
       </Button>
-      <Visibility visibility={Boolean(roomDetail?.id)}>
-        <CreateOrEditEvent item={roomDetail} handleSubmit={handleSubmit} />
+      <Visibility visibility={Boolean(eventDetail?._id)}>
+        <CreateOrEditEvent item={eventDetail} handleSubmit={handleSubmit} />
       </Visibility>
       <GeneralLoading isLoading={loading} />
     </>

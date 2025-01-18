@@ -1,8 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-  LoginOutlined,
-  PieChartOutlined,
-} from "@ant-design/icons";
+import { LoginOutlined, PieChartOutlined } from "@ant-design/icons";
 import isChildUrl from "../../../utils/check-active-router";
 import { DEFINE_ROUTERS_ADMIN } from "../../../constants/route-mapper";
 import cookiesStore from "../../../plugins/cookiesStore";
@@ -26,7 +23,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col w-80 h-screen bg-blue-950 text-white">
+    <div className="flex flex-col max-w-[320px] h-screen bg-blue-950 text-white">
       <div className="flex flex-col items-center justify-center h-24">
         <h1 className="text-2xl font-bold">Manager</h1>
         <Divider className="w-20 bg-white !mb-0" />

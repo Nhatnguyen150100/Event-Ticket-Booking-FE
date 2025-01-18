@@ -1,4 +1,4 @@
-type IStatusResponse = 200 | 400;
+type IStatusResponse = 200 | 400 | 401 | 403 | 500;
 
 export interface IBaseResponse<T> {
   data: T;

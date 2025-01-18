@@ -15,15 +15,15 @@ function App() {
 
   useEffect(() => {
     dispatch(setIsMobile(isMobile()));
-    
+
     const handleResize = () => {
       dispatch(setIsMobile(isMobile()));
     };
 
-    window.addEventListener('resize', handleResize);
-    
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -35,4 +35,3 @@ function App() {
 }
 
 export default App;
-

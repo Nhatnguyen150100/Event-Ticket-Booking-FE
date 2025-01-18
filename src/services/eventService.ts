@@ -1,52 +1,35 @@
 import axiosRequest from "../plugins/request";
-import { INew } from "../types/new.types";
+import { IEvent } from "../types/event.types";
 import { IBaseResponse, IBaseResponseList } from "../types/response.types";
 import onRemoveParams from "../utils/on-remove-params";
 
-class NewService {
-  private _prefixURL = "/v1/new";
+class EventService {
+  private _prefixURL = "/v1/events";
 
-  public async createNew(
+  public async createEvent(
     data: Record<string, any>
-  ): Promise<IBaseResponse<INew>> {
+  ): Promise<IBaseResponse<IEvent>> {
     try {
-      const rs = await axiosRequest.post(this._prefixURL, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const rs = await axiosRequest.post(this._prefixURL, data);
       return Promise.resolve(rs.data);
     } catch (error) {
       return Promise.reject(error);
     }
   }
 
-  public async updateNew(
+  public async updateEvent(
     id: string,
     data: Record<string, any>
-  ): Promise<IBaseResponse<INew>> {
+  ): Promise<IBaseResponse<IEvent>> {
     try {
-      const rs = await axiosRequest.put(`${this._prefixURL}/${id}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const rs = await axiosRequest.put(`${this._prefixURL}/${id}`, data);
       return Promise.resolve(rs.data);
     } catch (error) {
       return Promise.reject(error);
     }
   }
 
-  public async getNew(id: string): Promise<IBaseResponse<INew>> {
-    try {
-      const rs = await axiosRequest.get(`${this._prefixURL}/${id}`);
-      return Promise.resolve(rs.data);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
-
-  public async deleteNew(id: string): Promise<IBaseResponse<INew>> {
+  public async deleteEvent(id: string): Promise<IBaseResponse<any>> {
     try {
       const rs = await axiosRequest.delete(`${this._prefixURL}/${id}`);
       return Promise.resolve(rs.data);
@@ -55,9 +38,18 @@ class NewService {
     }
   }
 
-  public async getAllNew(
+  public async getEvent(id: string): Promise<IBaseResponse<IEvent>> {
+    try {
+      const rs = await axiosRequest.get(`${this._prefixURL}/${id}`);
+      return Promise.resolve(rs.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  public async getAllEvents(
     query: Record<string, any>
-  ): Promise<IBaseResponse<IBaseResponseList<INew[]>>> {
+  ): Promise<IBaseResponse<IBaseResponseList<IEvent[]>>> {
     try {
       const rs = await axiosRequest.get(this._prefixURL, {
         params: onRemoveParams(query),
@@ -69,4 +61,4 @@ class NewService {
   }
 }
 
-export default new NewService();
+export default new EventService();
