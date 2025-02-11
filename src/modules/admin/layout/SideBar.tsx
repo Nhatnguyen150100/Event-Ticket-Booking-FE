@@ -49,7 +49,7 @@ const Sidebar = () => {
           onClick={handleLogOut}
         >
           <span className="mr-2">{<LoginOutlined />}</span>
-          Đăng xuất
+          Log out
         </div>
       </div>
     </div>

@@ -106,11 +106,11 @@ export default function EventsManger() {
       render: (text) => <span className="text-lg font-medium ">{text}</span>,
     },
     {
-      title: "Tickets Available",
-      dataIndex: "ticketsAvailable",
-      key: "ticketsAvailable",
+      title: "Organization",
+      dataIndex: "eventOrganization",
+      key: "eventOrganization",
       render: (text) => (
-        <span className="text-lg font-medium text-green-600">{text}</span>
+        <span className="text-lg font-medium">{text}</span>
       ),
     },
     {

@@ -1,9 +1,13 @@
 const DEFINE_ROUTERS_ADMIN = {
-  home: "/",
+  homeAdmin: "/admin",
   eventsManager: "/admin/events-manager",
   editEvent: "/admin/events-manager/:id",
   newEvent: "/admin/events-manager/new-event",
   loginAdmin: "/login-admin",
 };
 
-export { DEFINE_ROUTERS_ADMIN };
+const DEFINE_USER_ROUTERS = {
+  home: "/"
+}
+
+export { DEFINE_ROUTERS_ADMIN, DEFINE_USER_ROUTERS };
