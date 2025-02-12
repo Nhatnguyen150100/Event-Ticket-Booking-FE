@@ -7,6 +7,7 @@ import {
   Input,
   InputNumber,
   message,
+  Select,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { formatter, parser } from "../../../../../utils/input-format-money";
@@ -28,8 +29,8 @@ type FieldType = {
   location: string;
   description?: string;
   capacity: number;
-  ticketsAvailable: number;
-  priceTicket: number;
+  eventOrganization: string;
+  type: string;
 };
 
 export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
@@ -64,8 +65,8 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
         time: data.time,
         location: data.location,
         capacity: data.capacity,
-        ticketsAvailable: data.ticketsAvailable,
-        priceTicket: data.priceTicket,
+        eventOrganization: data.eventOrganization,
+        type: data.type,
       });
 
       handleSubmit(body);
@@ -100,8 +101,8 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
           time: item?.time ? dayjs(item?.time) : "",
           location: item?.location ?? "",
           capacity: item?.capacity ?? 0,
-          ticketsAvailable: item?.ticketsAvailable ?? 0,
-          priceTicket: item?.priceTicket ?? 0,
+          eventOrganization: item?.eventOrganization ?? "",
+          type: item?.type ?? "",
         }}
         autoComplete="off"
       >
@@ -158,38 +159,44 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
               />
             </Form.Item>
             <Form.Item<FieldType>
-              label="Tickets Available"
-              name="ticketsAvailable"
+              label="EventOrganization"
+              name="eventOrganization"
               rules={[
                 {
                   required: true,
-                  message: "Please enter tickets available",
+                  message: "Please enter eventOrganization",
                 },
               ]}
             >
-              <InputNumber
-                className="w-full"
-                formatter={formatter}
-                parser={parser}
-                min={0}
-              />
+              <Input size="large" />
             </Form.Item>
             <Form.Item<FieldType>
-              label="priceTicket"
-              name="priceTicket"
+              label="Type"
+              name="type"
               rules={[
                 {
                   required: true,
-                  message: "Please enter price ticket",
+                  message: "Please select event type",
                 },
               ]}
             >
-              <InputNumber
-                className="w-full"
-                formatter={formatter}
-                parser={parser}
-                min={0}
-              />
+              <Select>
+                {[
+                  "MUSIC_CONCERT",
+                  "CULTURAL_ARTS",
+                  "TRAVEL",
+                  "WORKSHOP",
+                  "MOVIE",
+                  "TOUR",
+                  "SPORTS",
+                  "NEWS",
+                  "OTHER",
+                ].map((type) => (
+                  <Select.Option key={type} value={type}>
+                    {type}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </div>
         </div>

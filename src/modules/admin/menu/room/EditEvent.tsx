@@ -8,6 +8,8 @@ import eventService from "../../../../services/eventService";
 import Visibility from "../../../../components/base/visibility";
 import GeneralLoading from "../../../../components/base/GeneralLoading";
 import CreateOrEditEvent from "./common/CreateOrEditEvent";
+import Tab from "./Tabs";
+import CreateOrEditTicket from "./common/CreateOrEditTicket";
 
 export default function EditEvent() {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +17,7 @@ export default function EditEvent() {
   const [eventDetail, setEventDetail] = React.useState<IEvent>();
   const navigate = useNavigate();
 
+  
   React.useEffect(() => {
     if (id) {
       handleGetEventDetail();
@@ -59,11 +62,20 @@ export default function EditEvent() {
           navigate(-1);
         }}
       >
-        Trở lại
+        Back
       </Button>
-      <Visibility visibility={Boolean(eventDetail?._id)}>
-        <CreateOrEditEvent item={eventDetail} handleSubmit={handleSubmit} />
-      </Visibility>
+      <Tab
+        eventContent={
+          <Visibility visibility={Boolean(eventDetail?._id)}>
+            <CreateOrEditEvent item={eventDetail} handleSubmit={handleSubmit} />
+          </Visibility>
+        }
+        ticketContent={
+          <Visibility visibility={Boolean(eventDetail?._id)}>
+          <CreateOrEditTicket  />
+        </Visibility>
+        }
+      />
       <GeneralLoading isLoading={loading} />
     </>
   );

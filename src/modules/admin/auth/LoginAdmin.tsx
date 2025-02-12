@@ -27,7 +27,7 @@ export default function LoginAdmin() {
       });
       cookiesStore.set("access_token", rs.data.accessToken);
       cookiesStore.set("admin", "admin");
-      navigate(DEFINE_ROUTERS_ADMIN.home);
+      navigate(DEFINE_ROUTERS_ADMIN.homeAdmin);
     } finally {
       setLoading(false);
     }

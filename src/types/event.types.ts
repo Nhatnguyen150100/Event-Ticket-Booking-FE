@@ -23,4 +23,5 @@ export interface IEvent {
   __v: number;
   createdAt: string;
   updatedAt: string;
+  eventOrganization: string;
 }
