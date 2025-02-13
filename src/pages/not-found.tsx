@@ -22,7 +22,7 @@ export default function ErrorPage() {
         </p>
         <div className="mt-6">
           <Button type="primary" onClick={() => window.location.reload()}>
-            Reload this page
+            Reload page
           </Button>
         </div>
       </div>

@@ -12,6 +12,12 @@
     "commitlint": "commitlint --edit",
     "commit": "cz"
   },
+  "commitizen": {
+    "path": "./node_modules/cz-conventional-changelog",
+    "config": {
+      "types": "./cz-config.js"
+    }
+  },
   "lint-staged": {
     "*.{jsx,ts,tsx}": [
       "eslint --quiet",
