@@ -3,9 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../types/user.types';
 
 const initialState: IUser = {
-  id: '',
+  _id: '',
   email: '',
-  role: 'USER',
+  name: '',
+  role: '',
+  phone_number: '',
+  address: '',
+  __v: 0,
   createdAt: '',
   updatedAt: '',
 };

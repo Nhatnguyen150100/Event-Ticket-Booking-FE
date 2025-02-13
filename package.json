@@ -8,14 +8,15 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "*.{jsx,ts,tsx}": [
       "eslint --quiet",
       "eslint --quiet --fix"
     ],
-    "*.{js,ts,jsx,tsx,html}": [
+    "*.{ts,jsx,tsx,html}": [
       "prettier --write --ignore-unknown"
     ]
   },
@@ -44,6 +45,8 @@
     "swiper": "^11.1.14"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@eslint/js": "^9.11.1",
     "@types/aos": "^3.0.7",
     "@types/js-cookie": "^3.0.6",
