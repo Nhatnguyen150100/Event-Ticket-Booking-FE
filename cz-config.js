@@ -1,34 +1,30 @@
-export const types = [
-  { value: 'feat', name: '✨ feat:      A new feature' },
-  { value: 'fix', name: '🐛 fix:       A bug fix' },
-  { value: 'docs', name: '📚 docs:      Documentation only changes' },
-  {
-    value: 'style',
-    name: '💎 style:     Changes that do not affect the meaning of the code',
+// cz-config.js
+module.exports = {
+  types: [
+    { value: "✨ feat", name: "✨ feat: Thêm tính năng mới" },
+    { value: "🐛 fix", name: "🐛 fix: Sửa lỗi" },
+    { value: "📚 docs", name: "📚 docs: Cập nhật tài liệu" },
+    { value: "💄 style", name: "💄 style: Thay đổi UI/CSS" },
+    { value: "♻️ refactor", name: "♻️ refactor: Tái cấu trúc code" },
+    { value: "🚀 perf", name: "🚀 perf: Cải thiện hiệu suất" },
+    { value: "✅ test", name: "✅ test: Thêm test" },
+    { value: "🔧 chore", name: "🔧 chore: Công việc phụ trợ" },
+    { value: "📦 build", name: "📦 build: Thay đổi hệ thống build" },
+    { value: "👷 ci", name: "👷 ci: Cập nhật CI/CD" },
+    { value: "⏪ revert", name: "⏪ revert: Revert commit" },
+    { value: "🚧 wip", name: "🚧 wip: Đang trong tiến trình" },
+  ],
+  messages: {
+    type: "Chọn loại commit:",
+    scope: "\nPhạm vi thay đổi (optional):",
+    subject: "Tiêu đề commit (ngắn gọn, dùng imperative mood):\n",
+    body: 'Mô tả chi tiết (optional, dùng "|" để xuống dòng):\n',
+    breaking: "Breaking changes (optional):\n",
+    footer: "Issues closed (optional, ví dụ: #123):\n",
+    confirmCommit: "Xác nhận commit?",
   },
-  {
-    value: 'refactor',
-    name: '📦 refactor:  A code change that neither fixes a bug nor adds a feature',
-  },
-  {
-    value: 'perf',
-    name: '🚀 perf:      A code change that improves performance',
-  },
-  {
-    value: 'test',
-    name: '🚨 test:      Adding missing tests or correcting existing tests',
-  },
-  {
-    value: 'build',
-    name: '🛠 build:     Changes that affect the build system or external dependencies',
-  },
-  {
-    value: 'ci',
-    name: '⚙️ ci:        Changes to our CI configuration files and scripts',
-  },
-  {
-    value: 'chore',
-    name: "♻️ chore:     Other changes that don't modify src or test files",
-  },
-  { value: 'revert', name: '🗑 revert:    Reverts a previous commit' },
-];
+  allowCustomScopes: true,
+  allowBreakingChanges: ["feat", "fix"],
+  skipQuestions: ["body", "breaking", "footer"],
+  subjectLimit: 100,
+};
