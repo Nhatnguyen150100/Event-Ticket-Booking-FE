@@ -105,6 +105,9 @@ importers:
       commitizen:
         specifier: ^4.3.1
         version: 4.3.1(@types/node@22.13.2)(typescript@5.7.3)
+      commitlint-config-cz:
+        specifier: ^0.13.3
+        version: 0.13.3
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.13.2)(typescript@5.7.3)
@@ -1001,6 +1004,10 @@ packages:
   aos@3.0.0-beta.6:
     resolution: {integrity: sha512-VLWrpq8bfAWcetynVHMMrqdC+89Qq/Ym6UBJbHB4crIwp3RR8uq1dNGgsFzoDl03S43rlVMK+na3r5+oUCZsYw==}
 
+  app-root-path@3.0.0:
+    resolution: {integrity: sha512-qMcx+Gy2UZynHjOHOIXPNvpf+9cjvk3cWrBBK7zg4gH9+clobJRb9NGzcT7mQTcV/6Gm/1WelUtqxVXnNlrwcw==}
+    engines: {node: '>= 6.0.0'}
+
   arg@5.0.2:
     resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
 
@@ -1182,6 +1189,9 @@ packages:
     resolution: {integrity: sha512-gwAPAVTy/j5YcOOebcCRIijn+mSjWJC+IYKivTu6aG8Ei/scoXgfsMRnuAk6b0GRste2J4NGxVdMN3ZpfNaVaw==}
     engines: {node: '>= 12'}
     hasBin: true
+
+  commitlint-config-cz@0.13.3:
+    resolution: {integrity: sha512-6LmCvGiFDTVSmLF0mzVVp1etMM8lAqLmPRlU7Oml1J8J9oOLadf+2g4uMTchdxOvvYLgll99SESFUHgmc6oATA==}
 
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
@@ -3917,6 +3927,8 @@ snapshots:
       lodash.debounce: 4.0.8
       lodash.throttle: 4.1.1
 
+  app-root-path@3.0.0: {}
+
   arg@5.0.2: {}
 
   argparse@2.0.1: {}
@@ -4112,6 +4124,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
       - typescript
+
+  commitlint-config-cz@0.13.3:
+    dependencies:
+      app-root-path: 3.0.0
+      lodash.clonedeep: 4.5.0
 
   compare-func@2.0.0:
     dependencies:
