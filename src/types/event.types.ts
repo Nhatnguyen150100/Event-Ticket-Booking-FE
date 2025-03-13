@@ -1,3 +1,15 @@
+export enum EEventType {
+  MUSIC_CONCERT = "MUSIC_CONCERT",
+  CULTURAL_ARTS = "CULTURAL_ARTS",
+  TRAVEL = "TRAVEL",
+  WORKSHOP = "WORKSHOP",
+  MOVIE = "MOVIE",
+  TOUR = "TOUR",
+  SPORTS = "SPORTS",
+  NEWS = "NEWS",
+  OTHER = "OTHER",
+}
+
 export type IEventType =
   | "MUSIC_CONCERT"
   | "CULTURAL_ARTS"

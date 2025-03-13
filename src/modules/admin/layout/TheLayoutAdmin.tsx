@@ -18,7 +18,7 @@ export default function TheLayoutAdmin() {
   return (
     <div className="flex flex-row">
       <Sidebar />
-      <div className="px-14 w-full py-10 h-screen overflow-y-auto">
+      <div className="px-4 w-full py-10 h-screen overflow-y-auto">
         <Outlet />
       </div>
     </div>

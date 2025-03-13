@@ -11,12 +11,12 @@ const Tab: React.FC<TabProps> = ({ eventContent, ticketContent }) => {
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: "Event",
+      label: "Thông tin sự kiện",
       children: eventContent, 
     },
     {
       key: "2",
-      label: "Ticket",
+      label: "Quản lý vé của sự kiện",
       children: ticketContent, 
     },
   ];

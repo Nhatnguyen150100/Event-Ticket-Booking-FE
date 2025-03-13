@@ -8,6 +8,7 @@ import { DEFINE_ROUTERS_ADMIN } from "../../../../constants/route-mapper";
 import { IEvent } from "../../../../types/event.types";
 import eventService from "../../../../services/eventService";
 import { formatDate } from "../../../../utils/format-date";
+import ExtractNameEventType from "../../../../utils/extract-name-event-type";
 
 export default function EventsManger() {
   const navigate = useNavigate();
@@ -35,11 +36,11 @@ export default function EventsManger() {
 
   const handleDeleteEvent = async (_item: IEvent) => {
     Modal.confirm({
-      title: "Do you to delete this event",
-      content: `Event: ${_item.name}`,
-      okText: "Agree",
+      title: "Bạn có muốn xóa sự kiện này không?",
+      content: `Sự kiện: ${_item.name}`,
+      okText: "Đồng ý",
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: "Hủy",
       style: {
         top: "50%",
         transform: "translateY(-50%)",
@@ -65,27 +66,27 @@ export default function EventsManger() {
 
   const columns: TableProps<IEvent>["columns"] = [
     {
-      title: "Index",
+      title: "Số thứ tự",
       key: "index",
       render: (_: any, __: any, index: number) =>
         (query.page! - 1) * query.limit! + index + 1,
     },
     {
-      title: "Name event",
+      title: "Tên sự kiện",
       dataIndex: "name",
       align: "justify",
       key: "name",
       render: (text) => <span className="text-lg font-medium">{text}</span>,
     },
     {
-      title: "Type event",
+      title: "Loại sự kiện",
       dataIndex: "type",
       align: "justify",
       key: "type",
-      render: (text) => <span className="text-lg font-medium">{text}</span>,
+      render: (text) => <span className="text-lg font-medium">{ExtractNameEventType(text)}</span>,
     },
     {
-      title: "Thumbnail",
+      title: "Ảnh đại diện",
       dataIndex: "imageThumbnail",
       key: "icon",
       render: (img) => (
@@ -93,7 +94,7 @@ export default function EventsManger() {
       ),
     },
     {
-      title: "Time event",
+      title: "Thời gian tổ chức",
       dataIndex: "time",
       key: "time",
       render: (text) => (
@@ -101,19 +102,19 @@ export default function EventsManger() {
       ),
     },
     {
-      title: "Location event",
+      title: "Địa điểm tổ chức sự kiện",
       dataIndex: "location",
       key: "location",
       render: (text) => <span className="text-lg font-medium">{text}</span>,
     },
     {
-      title: "Capacity",
+      title: "Sức chứa",
       dataIndex: "capacity",
       key: "capacity",
-      render: (text) => <span className="text-lg font-medium ">{text}</span>,
+      render: (text) => <span className="text-lg font-medium ">{text.toLocaleString()}</span>,
     },
     {
-      title: "Organization",
+      title: "Đơn vị tổ chức",
       dataIndex: "eventOrganization",
       key: "eventOrganization",
       render: (text) => (
@@ -121,7 +122,7 @@ export default function EventsManger() {
       ),
     },
     {
-      title: "Delete event",
+      title: "Xóa sự kiện",
       key: "deleteEvent",
       align: "center",
       dataIndex: "deleteEvent",
@@ -148,7 +149,7 @@ export default function EventsManger() {
   return (
     <>
       <div className="flex flex-col justify-start items-start space-y-5 w-full">
-        <h1 className="font-bold text-2xl">List event manager</h1>
+        <h1 className="font-bold text-2xl">Quản lý danh sách dự kiện</h1>
         <div className="flex flex-row justify-between items-center w-full">
           <BaseSearch
             value={query.nameLike!}
@@ -164,7 +165,7 @@ export default function EventsManger() {
               navigate(DEFINE_ROUTERS_ADMIN.newEvent);
             }}
           >
-            Add new event
+            Thêm mới sự kiện
           </Button>
         </div>
         {loading ? (

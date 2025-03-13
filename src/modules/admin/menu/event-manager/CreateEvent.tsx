@@ -31,7 +31,7 @@ export default function CreateEvent() {
           navigate(-1);
         }}
       >
-        Back
+        Trở lại
       </Button>
       <CreateOrEditEvent handleSubmit={handleSubmit} />
       <GeneralLoading isLoading={loading} />

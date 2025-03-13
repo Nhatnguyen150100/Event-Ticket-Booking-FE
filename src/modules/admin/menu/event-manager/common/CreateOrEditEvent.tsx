@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Button,
   DatePicker,
@@ -8,14 +8,15 @@ import {
   InputNumber,
   message,
   Select,
-} from "antd";
-import TextArea from "antd/es/input/TextArea";
-import { formatter, parser } from "../../../../../utils/input-format-money";
-import ImgUpload from "../../../../../components/base/ImgUpload";
-import { IEvent } from "../../../../../types/event.types";
-import dayjs from "dayjs";
-import imagesService from "../../../../../services/imagesService";
-import onRemoveParams from "../../../../../utils/on-remove-params";
+} from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+import { formatter, parser } from '../../../../../utils/input-format-money';
+import ImgUpload from '../../../../../components/base/ImgUpload';
+import { IEvent } from '../../../../../types/event.types';
+import dayjs from 'dayjs';
+import imagesService from '../../../../../services/imagesService';
+import onRemoveParams from '../../../../../utils/on-remove-params';
+import ExtractNameEventType from '../../../../../utils/extract-name-event-type';
 
 interface IProps {
   item?: IEvent;
@@ -23,15 +24,54 @@ interface IProps {
 }
 
 type FieldType = {
-  name: string;
-  imageThumbnail?: string;
-  time: string;
-  location: string;
-  description?: string;
-  capacity: number;
-  eventOrganization: string;
-  type: string;
+  name: string,
+  imageThumbnail?: string,
+  time: string,
+  location: string,
+  description?: string,
+  capacity: number,
+  eventOrganization: string,
+  type: string,
 };
+
+const DEFINE_OPTIONS = [
+  {
+    value: "MUSIC_CONCERT",
+    label: ExtractNameEventType("MUSIC_CONCERT"),
+  },
+  {
+    value: "CULTURAL_ARTS",
+    label: ExtractNameEventType("CULTURAL_ARTS"),
+  },
+  {
+    value: "TRAVEL",
+    label: ExtractNameEventType("TRAVEL"),
+  },
+  {
+    value: "WORKSHOP",
+    label: ExtractNameEventType("WORKSHOP"),
+  },
+  {
+    value: "MOVIE",
+    label: ExtractNameEventType("MOVIE"),
+  },
+  {
+    value: "TOUR",
+    label: ExtractNameEventType("TOUR"),
+  },
+  {
+    value: "SPORTS",
+    label: ExtractNameEventType("SPORTS"),
+  },
+  {
+    value: "NEWS",
+    label: ExtractNameEventType("NEWS"),
+  },
+  {
+    value: "OTHER",
+    label: ExtractNameEventType("OTHER"),
+  },
+]
 
 export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
   const [file, setFile] = React.useState<any>();
@@ -46,14 +86,14 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
     await imagesService.deleteImages(listImageDelete);
   };
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     try {
       if (item?._id && listImageDelete?.length) handleDeleteImages();
       const data = { ...values };
-      let imageThumbnail = "";
+      let imageThumbnail = '';
       if (file) {
         const data = new FormData();
-        data.append("image", file);
+        data.append('image', file);
         const rs = await imagesService.uploadImage(data);
         imageThumbnail = rs.data;
       }
@@ -61,7 +101,7 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
       const body = onRemoveParams({
         imageThumbnail,
         name: data.name,
-        description: data.description ?? "",
+        description: data.description ?? '',
         time: data.time,
         location: data.location,
         capacity: data.capacity,
@@ -77,7 +117,7 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
 
   const handleUploadFile = async (file: File | undefined) => {
     if (file === undefined && item) {
-      const urlImage = item.imageThumbnail ?? "";
+      const urlImage = item.imageThumbnail ?? '';
       const newArr = listImageDelete;
       newArr.push(urlImage);
       setListImageDelete(newArr);
@@ -98,115 +138,95 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
         initialValues={{
           name: item?.name,
           description: item?.description,
-          time: item?.time ? dayjs(item?.time) : "",
-          location: item?.location ?? "",
-          capacity: item?.capacity ?? 0,
-          eventOrganization: item?.eventOrganization ?? "",
-          type: item?.type ?? "",
+          time: item?.time ? dayjs(item?.time) : '',
+          location: item?.location ?? '',
+          capacity: item?.capacity ?? null,
+          eventOrganization: item?.eventOrganization ?? '',
+          type: item?.type ?? '',
         }}
         autoComplete="off"
       >
-        <div className="grid grid-cols-2 gap-x-4">
-          <div>
-            <Form.Item<FieldType>
-              label="Event name"
-              name="name"
-              rules={[{ required: true, message: "Please enter event name" }]}
-            >
-              <Input className="w-full" size="large" />
-            </Form.Item>
+        <Form.Item<FieldType>
+          label="Tên sự kiện"
+          name="name"
+          rules={[{ required: true, message: 'Hãy điền tên sự kiện' }]}
+        >
+          <Input className="w-full" size="large" />
+        </Form.Item>
 
-            <Form.Item<FieldType>
-              label="Event venue"
-              name="location"
-              rules={[{ required: true, message: "Please enter event venue" }]}
-            >
-              <Input size="large" />
-            </Form.Item>
+        <Form.Item<FieldType>
+          label="Địa điểm tổ chức"
+          name="location"
+          rules={[{ required: true, message: 'Hãy điền địa điểm tổ chức sự kiện' }]}
+        >
+          <Input size="large" />
+        </Form.Item>
 
-            <Form.Item<FieldType>
-              label="Date of organization"
-              name="time"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter date of organization",
-                },
-              ]}
-            >
-              <DatePicker
-                format={"DD/MM/YYYY"}
-                minDate={dayjs().add(1, "day")}
-              />
-            </Form.Item>
-          </div>
-          <div>
-            <Form.Item<FieldType>
-              label="Capacity"
-              name="capacity"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter capacity",
-                },
-              ]}
-            >
-              <InputNumber
-                className="w-full"
-                formatter={formatter}
-                parser={parser}
-                min={0}
-              />
-            </Form.Item>
-            <Form.Item<FieldType>
-              label="EventOrganization"
-              name="eventOrganization"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter eventOrganization",
-                },
-              ]}
-            >
-              <Input size="large" />
-            </Form.Item>
-            <Form.Item<FieldType>
-              label="Type"
-              name="type"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select event type",
-                },
-              ]}
-            >
-              <Select>
-                {[
-                  "MUSIC_CONCERT",
-                  "CULTURAL_ARTS",
-                  "TRAVEL",
-                  "WORKSHOP",
-                  "MOVIE",
-                  "TOUR",
-                  "SPORTS",
-                  "NEWS",
-                  "OTHER",
-                ].map((type) => (
-                  <Select.Option key={type} value={type}>
-                    {type}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-        </div>
-        <Form.Item<FieldType> label="Description" name="description">
+        <Form.Item<FieldType>
+          label="Ngày diễn ra sự kiện"
+          name="time"
+          rules={[
+            {
+              required: true,
+              message: 'Hãy điền ngày diễn ra sự kiện',
+            },
+          ]}
+        >
+          <DatePicker className='w-[180px]' format={'DD/MM/YYYY'} placeholder='Chọn ngày diễn ra' minDate={dayjs().add(1, 'day')} />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Sức chứa của sự kiện"
+          name="capacity"
+          rules={[
+            {
+              required: true,
+              message: 'Hãy điền sức chứa của sự kiện',
+            },
+          ]}
+        >
+          <InputNumber
+            className="w-full"
+            formatter={formatter}
+            parser={parser}
+            min={0}
+          />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Đơn vị tổ chức sự kiện"
+          name="eventOrganization"
+          rules={[
+            {
+              required: true,
+              message: 'Hãy điền đơn vị tổ chức sự kiện',
+            },
+          ]}
+        >
+          <Input size="large" />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Loại sự kiện"
+          name="type"
+          rules={[
+            {
+              required: true,
+              message: 'Hãy chọn sự kiện',
+            },
+          ]}
+        >
+          <Select options={DEFINE_OPTIONS}/>
+        </Form.Item>
+
+        <Form.Item<FieldType> label="Mô tả sự kiện" name="description">
           <TextArea />
         </Form.Item>
+
         <Form.Item<any>
           label={
             <div className="text-sm space-x-2">
-              <span>Thumbnail image event</span>
+              <span>Ảnh đại diện sự kiện</span>
             </div>
           }
         >
@@ -219,7 +239,7 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
 
         <div className="w-full flex justify-end items-end my-5">
           <Button type="primary" htmlType="submit">
-            {item?._id ? "Update event" : "Add new event"}
+            {item?._id ? 'Cập nhật sự kiện' : 'Thêm mới sự kiện'}
           </Button>
         </div>
       </Form>

@@ -1,3 +1,10 @@
+export enum ETicketType {
+  VIP = "VIP",
+  GENERAL = "GENERAL",
+  VIP_PLUS = "VIP_PLUS",
+  VIP_PLATINUM = "VIP_PLATINUM",
+}
+
 export type ITicketType =
   | "VIP"
   | "GENERAL"
@@ -9,7 +16,8 @@ export type ITicketType =
     eventId: string;
     price: number;
     quantity: number;
-    type: string;
+    soldQuantity: number;
+    type: ITicketType;
     createdAt: string;
     updatedAt: string;
   }

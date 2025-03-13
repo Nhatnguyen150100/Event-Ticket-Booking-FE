@@ -62,7 +62,7 @@ export default function EditEvent() {
           navigate(-1);
         }}
       >
-        Back
+        Trở lại
       </Button>
       <Tab
         eventContent={

@@ -11,7 +11,7 @@ const Sidebar = () => {
   const menuItems = [
     {
       path: DEFINE_ROUTERS_ADMIN.eventsManager,
-      label: "Event manager",
+      label: "Quản lý sự kiện",
       icon: <PieChartOutlined />,
     },
   ];
@@ -25,7 +25,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col max-w-[320px] h-screen bg-blue-950 text-white">
       <div className="flex flex-col items-center justify-center h-24">
-        <h1 className="text-2xl font-bold">Manager</h1>
+        <h1 className="text-2xl font-bold">Trang quản lý</h1>
         <Divider className="w-20 bg-white !mb-0" />
       </div>
       <div className="flex flex-col mt-4 px-5 space-y-3">
@@ -49,7 +49,7 @@ const Sidebar = () => {
           onClick={handleLogOut}
         >
           <span className="mr-2">{<LoginOutlined />}</span>
-          Log out
+          Đăng xuất
         </div>
       </div>
     </div>
