@@ -43,7 +43,7 @@ export default function EditEvent() {
   const handleSubmit = async (data: Record<string, any>) => {
     try {
       setLoading(true);
-      const rs = await eventService.updateEvent(id!, data);
+      const rs = await eventService.updateEvent(id, data);
       message.success(rs.message);
       navigate(-1);
     } catch (error: any) {
