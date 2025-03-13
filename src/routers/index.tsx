@@ -4,9 +4,9 @@ import AdminPage from "../modules/admin/AdminPage";
 import TheLayoutAdmin from "../modules/admin/layout/TheLayoutAdmin";
 import { DEFINE_ROUTERS_ADMIN, DEFINE_USER_ROUTERS } from "../constants/route-mapper";
 import LoginAdmin from "../modules/admin/auth/LoginAdmin";
-import EventsManger from "../modules/admin/menu/room/EventsManger";
-import CreateEvent from "../modules/admin/menu/room/CreateEvent";
-import EditEvent from "../modules/admin/menu/room/EditEvent";
+import EventsManger from "../modules/admin/menu/event-manager/EventsManger";
+import CreateEvent from "../modules/admin/menu/event-manager/CreateEvent";
+import EditEvent from "../modules/admin/menu/event-manager/EditEvent";
 import TheLayout from "../components/layout/TheLayout";
 import HomeUser from "../modules/app/home/HomeUser";
 

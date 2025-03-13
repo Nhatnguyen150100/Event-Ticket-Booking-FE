@@ -11,7 +11,7 @@ const Sidebar = () => {
   const menuItems = [
     {
       path: DEFINE_ROUTERS_ADMIN.eventsManager,
-      label: "Event booking manager",
+      label: "Event manager",
       icon: <PieChartOutlined />,
     },
   ];
@@ -19,7 +19,7 @@ const Sidebar = () => {
   const handleLogOut = () => {
     cookiesStore.remove("admin");
     cookiesStore.remove("access_token");
-    window.location.href = DEFINE_ROUTERS_ADMIN.home;
+    window.location.href = DEFINE_ROUTERS_ADMIN.homeAdmin;
   };
 
   return (
@@ -35,7 +35,7 @@ const Sidebar = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center py-3 px-4 hover:bg-white hover:text-blue-950 transition-colors rounded-2xl ${
+              className={`flex items-center py-3 px-4 hover:bg-white hover:text-blue-950 transition-colors rounded-2xl whitespace-nowrap ${
                 isActive ? "bg-white text-blue-950" : ""
               }`}
             >

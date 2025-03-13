@@ -61,11 +61,11 @@ export default function EventsManger() {
 
   React.useEffect(() => {
     handleGetEventsList();
-  }, [query.page]);
+  }, [query.page, query.limit]);
 
   const columns: TableProps<IEvent>["columns"] = [
     {
-      title: "Số thứ tự",
+      title: "Index",
       key: "index",
       render: (_: any, __: any, index: number) =>
         (query.page! - 1) * query.limit! + index + 1,
@@ -75,6 +75,13 @@ export default function EventsManger() {
       dataIndex: "name",
       align: "justify",
       key: "name",
+      render: (text) => <span className="text-lg font-medium">{text}</span>,
+    },
+    {
+      title: "Type event",
+      dataIndex: "type",
+      align: "justify",
+      key: "type",
       render: (text) => <span className="text-lg font-medium">{text}</span>,
     },
     {

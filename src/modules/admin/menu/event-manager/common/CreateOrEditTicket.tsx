@@ -81,6 +81,10 @@ export default function CreateOrEditTicket() {
       setLoading(false);
     }
   };
+
+  const handleOpenModal = () => {
+    
+  }
   
 
   return (
@@ -88,7 +92,7 @@ export default function CreateOrEditTicket() {
       <div className="flex flex-col justify-start items-start space-y-5 w-full">
         <div className="flex flex-row justify-between items-center w-full">
           <h1 className="font-bold text-2xl">List Ticket Manager</h1>
-          <Button type="primary">Add New Ticket</Button>
+          <Button type="primary" onClick={handleOpenModal}>Add New Ticket</Button>
         </div>
         {loading ? (
           <Spin />
