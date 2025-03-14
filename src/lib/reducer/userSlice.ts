@@ -2,24 +2,20 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../types/user.types';
 
-const initialState: IUser = {
-  _id: '',
-  email: '',
-  name: '',
-  role: '',
-  phone_number: '',
-  address: '',
-  __v: 0,
-  createdAt: '',
-  updatedAt: '',
+export interface IUserState {
+  userData: IUser | undefined;
+}
+
+const initialState: IUserState = {
+  userData: undefined
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<IUser>) => {
-      state = { ...action.payload };
+    setUser: (state, action: PayloadAction<IUser | undefined>) => {
+      state = { ...state, userData: action.payload };
       return state;
     },
   },

@@ -60,6 +60,7 @@ export default function CreateOrEditTicket() {
       const ticketData = {
         ...values,
         eventId: eventId,
+        quantity: parseInt(values.quantity)
       };
 
       if (isEditMode && selectedTicket) {
