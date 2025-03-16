@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import cookiesStore from "./cookiesStore";
 import showError from "../utils/showError";
 import { DEFINE_ROUTERS_ADMIN } from "../constants/route-mapper";
+import { TOKEN_KEY } from "../constants/token-key";
 
 const API_URL: string | undefined = import.meta.env.VITE_BASE_URL;
 
@@ -9,11 +10,11 @@ const axiosRequest = axios.create({
   baseURL: API_URL,
   withCredentials: false,
 });
-const token = cookiesStore.get("access_token");
+const token = cookiesStore.get(TOKEN_KEY.ACCESS_TOKEN);
 
 axiosRequest.defaults.headers.put["Content-Type"] = "application/json";
 axiosRequest.defaults.headers.common["Authorization"] = cookiesStore.get(
-  "access_token"
+  TOKEN_KEY.ACCESS_TOKEN
 )
   ? "Bearer " + token
   : "";
@@ -28,7 +29,7 @@ const onRejectResponse = (error: any) => {
   const { data, status } = error.response;
 
   if (status === 401 || status === 403) {
-    cookiesStore.remove("access_token");
+    cookiesStore.remove(TOKEN_KEY.ACCESS_TOKEN);
     axiosRequest.defaults.headers.common["Authorization"] = "";
     location.href = DEFINE_ROUTERS_ADMIN.loginAdmin;
   }
@@ -43,7 +44,7 @@ const onRejectResponse = (error: any) => {
 
 axiosRequest.interceptors.response.use(onFulFillResponse, onRejectResponse);
 axiosRequest.interceptors.request.use((config) => {
-  const token = cookiesStore.get("access_token");
+  const token = cookiesStore.get(TOKEN_KEY.ACCESS_TOKEN);
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }

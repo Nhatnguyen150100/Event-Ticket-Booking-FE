@@ -4,9 +4,13 @@ import isChildUrl from "../../../utils/check-active-router";
 import { DEFINE_ROUTERS_ADMIN } from "../../../constants/route-mapper";
 import cookiesStore from "../../../plugins/cookiesStore";
 import { Divider } from "antd";
+import { TOKEN_KEY } from "../../../constants/token-key";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../lib/reducer/userSlice";
 
 const Sidebar = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const menuItems = [
     {
@@ -17,8 +21,9 @@ const Sidebar = () => {
   ];
 
   const handleLogOut = () => {
+    dispatch(setUser(undefined));
     cookiesStore.remove("admin");
-    cookiesStore.remove("access_token");
+    cookiesStore.remove(TOKEN_KEY.ACCESS_TOKEN);
     window.location.href = DEFINE_ROUTERS_ADMIN.homeAdmin;
   };
 

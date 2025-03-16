@@ -5,6 +5,7 @@ import cookiesStore from "../../../plugins/cookiesStore";
 import GeneralLoading from "../../../components/base/GeneralLoading";
 import { DEFINE_ROUTERS_ADMIN } from "../../../constants/route-mapper";
 import authService from "../../../services/authService";
+import { TOKEN_KEY } from "../../../constants/token-key";
 
 export default function LoginAdmin() {
   const [form, setForm] = React.useState({
@@ -25,7 +26,7 @@ export default function LoginAdmin() {
         email: form.email,
         password: form.password,
       });
-      cookiesStore.set("access_token", rs.data.accessToken);
+      cookiesStore.set(TOKEN_KEY.ACCESS_TOKEN, rs.data.accessToken);
       cookiesStore.set("admin", "admin");
       navigate(DEFINE_ROUTERS_ADMIN.homeAdmin);
     } finally {
