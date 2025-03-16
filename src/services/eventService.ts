@@ -48,7 +48,7 @@ class EventService {
   }
 
   public async getAllEvents(
-    query: Record<string, any>
+    query?: Record<string, any>
   ): Promise<IBaseResponse<IBaseResponseList<IEvent[]>>> {
     try {
       const rs = await axiosRequest.get(this._prefixURL, {

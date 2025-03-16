@@ -5,9 +5,10 @@
  * @returns {Record<string, any>} - object đã loại bỏ các trường là falsy trong obj
  */
 const onRemoveParams = (
-  params: Record<string, any>,
+  params?: Record<string, any>,
   arrayValueAccepted: any[] = [],
 ): Record<string, any> => {
+  if(!params) return {};
   // Chọn các giá trị được chấp nhận trong mảng truyền vào
   const onCheckAcceptedValue = (value: any): boolean => {
     if (arrayValueAccepted.length === 0) return false;

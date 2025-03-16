@@ -9,6 +9,7 @@ import CreateEvent from "../modules/admin/menu/event-manager/CreateEvent";
 import EditEvent from "../modules/admin/menu/event-manager/EditEvent";
 import TheLayout from "../components/layout/TheLayout";
 import HomeUser from "../modules/app/home/HomeUser";
+import EventDetail from "../modules/app/home/EventDetail";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomeUser />
+      },
+      {
+        path: DEFINE_USER_ROUTERS.eventDetail,
+        element: <EventDetail />
       }
     ]
   },

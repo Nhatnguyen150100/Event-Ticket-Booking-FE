@@ -8,12 +8,13 @@ import {
   InputNumber,
   message,
   Select,
+  TimePicker,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { formatter, parser } from '../../../../../utils/input-format-money';
 import ImgUpload from '../../../../../components/base/ImgUpload';
 import { IEvent } from '../../../../../types/event.types';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import imagesService from '../../../../../services/imagesService';
 import onRemoveParams from '../../../../../utils/on-remove-params';
 import ExtractNameEventType from '../../../../../utils/extract-name-event-type';
@@ -24,14 +25,17 @@ interface IProps {
 }
 
 type FieldType = {
-  name: string,
-  imageThumbnail?: string,
-  time: string,
-  location: string,
-  description?: string,
-  capacity: number,
-  eventOrganization: string,
-  type: string,
+  name: string;
+  imageThumbnail?: string;
+  startDate: Dayjs;
+  endDate?: Dayjs;
+  startTime?: Dayjs;
+  endTime?: Dayjs;
+  location: string;
+  description?: string;
+  capacity: number;
+  eventOrganization: string;
+  type: string;
 };
 
 const DEFINE_OPTIONS = [
@@ -86,6 +90,9 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
     await imagesService.deleteImages(listImageDelete);
   };
 
+  const formatDate = (date: Dayjs) => date.format('YYYY-MM-DD');
+  const formatTime = (time: Dayjs) => time.format('HH:mm');
+
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     try {
       if (item?._id && listImageDelete?.length) handleDeleteImages();
@@ -102,7 +109,10 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
         imageThumbnail,
         name: data.name,
         description: data.description ?? '',
-        time: data.time,
+        startDate: formatDate(values.startDate),
+        endDate: values.endDate  ? formatDate(values.endDate) : null,
+        startTime: values.startTime ? formatTime(values.startTime) : null,
+        endTime: values.endTime ? formatTime(values.endTime) : null,
         location: data.location,
         capacity: data.capacity,
         eventOrganization: data.eventOrganization,
@@ -138,7 +148,10 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
         initialValues={{
           name: item?.name,
           description: item?.description,
-          time: item?.time ? dayjs(item?.time) : '',
+          startDate: item?.startDate ? dayjs(item.startDate) : dayjs(),
+          endDate: item?.endDate ? dayjs(item.endDate) : dayjs(),
+          startTime: item?.startTime ? dayjs(item.startTime, 'HH:mm') : dayjs(),
+          endTime: item?.endTime ? dayjs(item.endTime, 'HH:mm') : dayjs(),
           location: item?.location ?? '',
           capacity: item?.capacity ?? null,
           eventOrganization: item?.eventOrganization ?? '',
@@ -163,16 +176,51 @@ export default function CreateOrEditEvent({ item, handleSubmit }: IProps) {
         </Form.Item>
 
         <Form.Item<FieldType>
-          label="Ngày diễn ra sự kiện"
-          name="time"
-          rules={[
-            {
-              required: true,
-              message: 'Hãy điền ngày diễn ra sự kiện',
-            },
-          ]}
+          label="Ngày bắt đầu"
+          name="startDate"
+          rules={[{ required: true, message: 'Vui lòng chọn ngày bắt đầu' }]}
         >
-          <DatePicker className='w-[180px]' format={'DD/MM/YYYY'} placeholder='Chọn ngày diễn ra' minDate={dayjs().add(1, 'day')} />
+          <DatePicker 
+            format="DD/MM/YYYY" 
+            className="w-full"
+            disabledDate={(current) => current < dayjs().startOf('day')}
+          />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Giờ bắt đầu"
+          name="startTime"
+          rules={[{ required: true, message: 'Vui lòng chọn giờ bắt đầu' }]}
+        >
+          <TimePicker 
+            format="HH:mm" 
+            className="w-full" 
+            minuteStep={15}
+          />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Ngày kết thúc"
+          name="endDate"
+          rules={[{ required: true, message: 'Vui lòng chọn ngày kết thúc' }]}
+        >
+          <DatePicker 
+            format="DD/MM/YYYY" 
+            className="w-full"
+            disabledDate={(current) => current < dayjs().startOf('day')}
+          />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="Giờ kết thúc"
+          name="endTime"
+          rules={[{ required: true, message: 'Vui lòng chọn giờ kết thúc' }]}
+        >
+          <TimePicker 
+            format="HH:mm" 
+            className="w-full" 
+            minuteStep={15}
+          />
         </Form.Item>
 
         <Form.Item<FieldType>

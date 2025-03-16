@@ -7,7 +7,19 @@ const DEFINE_ROUTERS_ADMIN = {
 };
 
 const DEFINE_USER_ROUTERS = {
-  home: "/"
+  home: "/",
+  
+  musicConcert: "/music-concert",
+  culturalArts: "/cultural-arts",
+  travel: "/travel",
+  workshop: "/workshop",
+  movie: "/movie",
+  tour: "/tour",
+  sports: "/sports",
+  news: "/news",
+  other: "/other",
+
+  eventDetail: "/:id",
 }
 
 export { DEFINE_ROUTERS_ADMIN, DEFINE_USER_ROUTERS };

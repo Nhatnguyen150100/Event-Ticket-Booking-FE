@@ -26,7 +26,10 @@ export interface IEvent {
   _id: string;
   name: string;
   imageThumbnail: string;
-  time: string;
+  startTime?: string;
+  endTime?: string;
+  startDate: string;
+  endDate?: string;
   location: string;
   description: string;
   capacity: number;
